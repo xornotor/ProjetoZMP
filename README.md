@@ -29,6 +29,8 @@ Tanto para a leitura das rodas dianteiras quanto para a leitura das rodas trasei
 
 Para todos os dados acima, considerar o byte de índice maior como byte mais significativo e considerar bit de maior magnitude neste byte como bit de sinal.
 
+Lembrando que os dados de leitura.data[ ] serão automaticamente escritos nos vetores read_dianteira[ ] e read_traseira[ ], então **NÃO MANIPULAR DIRETAMENTE leitura.data[ ] NA FUNÇÃO DE CÁLCULO, E SIM OS VETORES read_dianteira[ ] E read_traseira[ ].**
+
 ### Organização dos bytes das mensagens escritas
 
 Para escrita de dados, a organização de dados do pacote recebido deve ser considerada assim:
@@ -39,6 +41,8 @@ Para escrita de dados, a organização de dados do pacote recebido deve ser cons
 * **escrita.data[7] e escrita.data[6]:** Escrita da referência de força da roda dianteira esquerda
 
 Para todos os dados acima, considerar o byte de índice maior como byte mais significativo e considerar bit de maior magnitude neste byte como bit de sinal.
+
+Lembrando que os dados escritos no vetor writebyte[ ] serão transferidos pra a escrita.data[ ] na função de escrita, então **NÃO MANIPULAR DIRETAMENTE escrita.data[ ] NA FUNÇÃO DE CÁLCULO, E SIM O VETOR writebyte[ ].**
 
 ## Pendências
 
