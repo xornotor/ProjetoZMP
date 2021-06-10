@@ -2,6 +2,8 @@
 
 ## Introdução
 
+**Alunos:** Ana Clara Malheiro Smera Batista, André Paiva Conrado Rodrigues
+
 Projeto de cálculo de referência de forças para rodas de um carro a partir de leitura de IMU de 9 GdL e feed back de RPM/Força das rodas.
 
 A ideia é de implementação em Intel Galileo.
