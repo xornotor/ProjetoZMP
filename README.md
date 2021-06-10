@@ -51,7 +51,6 @@ Falta a rotina de interpretação dos dados lidos da CAN e cálculo de valor de 
 ### O que fazer para resolver as pendências
 
 Na função ```calculoRef()```:
-* Ler dados de ```read_dianteira[]``` e transformar em ```int```;
-* Ler dados de ```read_traseira[]``` e transformar em ```int```;
+* Transformar ```read_dianteira[]``` e ```read_traseira[]``` em ```int```;
 * Usar dados convertidos e dados da leitura da IMU (```acc[]```, ```gyr[]``` e ```magne[]```) para fazer o cálculo de referência de força das rodas;
 * Converter cálculo de cada roda em sequência de 2 bytes cada e gravar em ```writebyte[]``` na sequência estabelecida para ```escrita.data[]```
