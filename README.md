@@ -44,14 +44,12 @@ Para todos os dados acima, considerar o byte de índice maior como byte mais sig
 
 Lembrando que os dados presentes nos vetores ```write_dianteira[]``` e ```write_traseira[]``` serão transferidos pra a ```escrita.data[]``` na função de escrita, então **NÃO MANIPULAR DIRETAMENTE ```escrita.data[]``` NA FUNÇÃO DE CÁLCULO, E SIM OS VETORES ```write_dianteira[]``` E ```write_traseira[]``` .**
 
-## Pendências
+### Função de cálculo de referência
 
-Falta a rotina de interpretação dos dados lidos da CAN e cálculo de valor de referência para as rodas.
-
-### O que fazer para resolver as pendências
+**ATENÇÃO: ESTE NÃO É UM CÁLCULO REAL DE REFERÊNCIA DE TORQUE DAS RODAS. O TRABALHO FOI FEITO SEM CONHECIMENTO DE SISTEMAS DE CONTROLE E A ROTINA ADOTADA É APENAS UM CÁLCULO ARBIRTRÁRIO QUE NÃO CONDIZ COM ROTINAS REAIS DE CÁLCULO DE REFERÊNCIA DE TORQUE DE RODAS. POR FAVOR, DESCONSIDERE A SIGNIFICÂNCIA DE QUALQUER DADO NUMÉRICO RESULTANTE DO CÁLCULO A SEGUIR.**
 
 Na função ```calculoRef()```:
 
-* Transformar dados ```read_dianteira[]``` e ```read_traseira[]``` em ```int```;
-* Usar dados convertidos e dados da leitura da IMU (```acc[]```, ```gyr[]``` e ```magne[]```) para fazer o cálculo de referência de força das rodas;
-* Converter cálculo de cada roda e cálculo dos ângulos (rodas dianteiras) em sequência de 2 bytes cada e gravar em ```write_dianteira[]``` e ```write_traseira[]``` na sequência estabelecida para ```escrita.data[]```.
+* Transformação de dados ```read_dianteira[]``` e ```read_traseira[]``` em ```int```;
+* Uso de dados convertidos e dados da leitura da IMU (```acc[]```, ```gyr[]``` e ```magne[]```) para fazer o cálculo de referência de torque das rodas;
+* Conversão de cálculo de cada roda e cálculo dos ângulos (rodas dianteiras) em sequência de 2 bytes cada e gravação em ```write_dianteira[]``` e ```write_traseira[]``` na sequência estabelecida para ```escrita.data[]```.
