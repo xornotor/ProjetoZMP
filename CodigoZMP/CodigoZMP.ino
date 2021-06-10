@@ -17,8 +17,8 @@
 //0x01 ID da mensagem da MCU das rodas traseiras
 //0x02 ID da mensagem da MCU de cálculo da ZMP (esta)
 #define MCU_DIANT 0x02
-#define MCU_TRAS 0x01
-#define MCU_ZMP 0x03
+#define MCU_TRAS 0x03
+#define MCU_ZMP 0x04
 
 //Definição de structs e módulo CAN
 struct can_frame leitura, escrita; //can_id, can_dlc, data[can_dlc]
