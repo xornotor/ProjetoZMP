@@ -107,5 +107,29 @@ bool leituraIMU(ICM_20948_I2C *sensor){
 
 //Função de cálculo de força de referência das rodas
 void calculoRef(){
-  //Escrever rotina de cálculo de referência
+  unsigned int ref[3], refDiantEsq, refDiantDir, refTrasEsq, refTrasDir, refAnguloEsq, refAnguloDir;
+  for(int i = 0; i < 3; i++)
+    ref[i] = abs(acc[i]*gyr[i]/magne[i]);
+  refDiantEsq = (read_dianteira[3]*256) + read_dianteira[2])/(5*ref[0]);
+  refDiantDir = (read_dianteira[1]*256) + read_dianteira[0])/(5*ref[1]);
+  refTrasEsq = (read_traseira[3]*256) + read_traseira[2])/(5*ref[0]);
+  refTrasDir = (read_traseira[1]*256) + read_traseira[0])/(5*ref[1]);
+  refAnguloEsq = (read_dianteira[7]*256) + read_dianteira[6])/ref[2];
+  refAnguloDir = (read_dianteira[5]*256) + read_dianteira[4])/ref[2];
+  write_dianteira[0] = refDiantDir % 256;
+  write_dianteira[1] = refDiantDir / 256;
+  write_dianteira[2] = refDiantEsq % 256;
+  write_dianteira[3] = refDiantEsq / 256;
+  write_dianteira[4] = refAnguloDir % 256;
+  write_dianteira[5] = refAnguloDir / 256;
+  write_dianteira[6] = refAnguloEsq % 256;
+  write_dianteira[7] = refAnguloEsq / 256;
+  write_traseira[0] = refTrasDir % 256; 
+  write_traseira[1] = refTrasDir / 256;
+  write_traseira[2] = refTrasEsq % 256;
+  write_traseira[3] = refTrasEsq / 256;
+  write_traseira[4] = 0;
+  write_traseira[5] = 0;
+  write_traseira[6] = 0;
+  write_traseira[7] = 0;
 }
