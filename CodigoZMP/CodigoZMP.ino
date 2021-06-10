@@ -65,19 +65,24 @@ void loop() {
 bool leituraCAN(int id_busca){
   bool exito = false;
   if(mcp2515.readMessage(&leitura) == MCP2515::ERROR_OK){
-    for(int i = 0; i < leitura.can_dlc; i++){
-      if(leitura.can_id == MCU_DIANT && id_busca == MCU_DIANT){
-        read_dianteira[i] = leitura.data[i];
-        if(exito == false) exito = true;
-      }else if(leitura.can_id == MCU_TRAS && id_busca == MCU_TRAS){
-        read_traseira[i] = leitura.data[i];
-        if(exito == false) exito = true;
-      }
+    if(leitura.can_id == MCU_DIANT && id_busca == MCU_DIANT){
+      if(exito == false) exito = true;
+      for(int i = 0; i < leitura.can_dlc; i++) read_dianteira[i] = leitura.data[i];
+    }else if(leitura.can_id == MCU_TRAS && id_busca == MCU_TRAS){
+      if(exito == false) exito = true;
+      for(int i = 0; i < leitura.can_dlc; i++) read_traseira[i] = leitura.data[i];
     }
   }
   return exito;
 }
 
+//Função de escrita pelo módulo CAN
+void escritaCAN(){
+  for(int i = 0; i < escrita.can_dlc; i++) escrita.data[i] = writebyte[i];
+  mcp2515.sendMessage(&escrita);
+}
+
+//Função de leitura do módulo IMU
 bool leituraIMU(ICM_20948_I2C *sensor){
   bool exito = false;
   if(myICM.dataReady()){
@@ -96,13 +101,7 @@ bool leituraIMU(ICM_20948_I2C *sensor){
   return exito;
 }
 
-void escritaCAN(){
-  for(int i = 0; i < escrita.can_dlc; i++){
-    escrita.data[i] = writebyte[i];
-  }
-  mcp2515.sendMessage(&escrita);
-}
-
+//Função de cálculo de força de referência das rodas
 void calculoRef(){
-  
+  //Escrever rotina de cálculo de referência
 }
