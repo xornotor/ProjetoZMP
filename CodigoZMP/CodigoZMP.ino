@@ -38,7 +38,7 @@ void setup() {
   mcp2515.setBitrate(CAN_125KBPS);
   mcp2515.setNormalMode();
   escrita.can_id = MCU_ZMP;
-  escrita.can_dlc = 4;
+  escrita.can_dlc = 8;
 
   //Inicialização do módulo IMU
   WIRE_PORT.begin();
