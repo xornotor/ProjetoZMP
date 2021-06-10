@@ -8,13 +8,13 @@ A ideia é de implementação em Intel Galileo.
 
 ## Funções implementadas até o momento
 
-Até o presente momento, foi criado um código ```.ino``` com as funções de escrita/leitura em barramento CAN e leitura da IMU. 
+Até o presente momento, foi criado um código ```.ino``` com as funções de escrita/leitura em barramento CAN e leitura da IMU.
 
 ## Considerações para implementação
 
 A leitura das mensagens foi feita considerando que a MCU das rodas dianteiras está emitindo mensagem com ID ```0x02``` e a MCU das rodas traseiras está emitindo mensagem com ID ```0x03```.
 
-A mensagem que escreveremos contendo o cálculo de referência das rodas será enviada com ID ```0x04```.
+A mensagem que escreveremos contendo os dados de referência das rodas *traseiras* será enviada com ID ```0x04```, e a mensagem que escreveremos contendo os dados de referência das rodas *dianteiras* será enviada com ID ```0x05```.
 
 Cada mensagem lida/escrita terá 8 bytes de tamanho.
 
@@ -24,8 +24,8 @@ Tanto para a leitura das rodas dianteiras quanto para a leitura das rodas trasei
 
 * ```leitura.data[1]``` e ```leitura.data[0]```: Leitura de força da roda direita
 * ```leitura.data[3]``` e ```leitura.data[2]```: Leitura de força da roda esquerda
-* ```leitura.data[5]``` e ```leitura.data[4]```: Leitura de RPM da roda direita
-* ```leitura.data[7]``` e ```leitura.data[6]```: Leitura de RPM da roda esquerda
+* ```leitura.data[5]``` e ```leitura.data[4]```: Leitura de ângulo da roda direita (dianteira)
+* ```leitura.data[7]``` e ```leitura.data[6]```: Leitura de ângulo da roda esquerda (dianteira)
 
 Para todos os dados acima, considerar o byte de índice maior como byte mais significativo e considerar bit de maior magnitude neste byte como bit de sinal.
 
@@ -35,14 +35,14 @@ Lembrando que os dados de ```leitura.data[]``` serão automaticamente escritos n
 
 Para escrita de dados, a organização de dados do pacote recebido deve ser considerada assim:
 
-* ```escrita.data[1]``` e ```escrita.data[0]```: Escrita da referência de força da roda traseira direita
-* ```escrita.data[3]``` e ```escrita.data[2]```: Escrita da referência de força da roda traseira esquerda
-* ```escrita.data[5]``` e ```escrita.data[4]```: Escrita da referência de força da roda dianteira direita
-* ```escrita.data[7]``` e ```escrita.data[6]```: Escrita da referência de força da roda dianteira esquerda
+* ```escrita.data[1]``` e ```escrita.data[0]```: Escrita da referência de força da roda direita
+* ```escrita.data[3]``` e ```escrita.data[2]```: Escrita da referência de força da roda esquerda
+* ```escrita.data[5]``` e ```escrita.data[4]```: Escrita da ângulo da roda direita (dianteira)
+* ```escrita.data[7]``` e ```escrita.data[6]```: Escrita da ângulo da roda esquerda (dianteira)
 
 Para todos os dados acima, considerar o byte de índice maior como byte mais significativo e considerar bit de maior magnitude neste byte como bit de sinal.
 
-Lembrando que os dados escritos no vetor ```writebyte[]``` serão transferidos pra a ```escrita.data[]``` na função de escrita, então **NÃO MANIPULAR DIRETAMENTE ```escrita.data[]``` NA FUNÇÃO DE CÁLCULO, E SIM O VETOR ```writebyte[]``` .**
+Lembrando que os dados presentes nos vetores ```write_dianteira[]``` e ```write_traseira[]``` serão transferidos pra a ```escrita.data[]``` na função de escrita, então **NÃO MANIPULAR DIRETAMENTE ```escrita.data[]``` NA FUNÇÃO DE CÁLCULO, E SIM OS VETORES ```write_dianteira[]``` E ```write_traseira[]``` .**
 
 ## Pendências
 
@@ -51,6 +51,7 @@ Falta a rotina de interpretação dos dados lidos da CAN e cálculo de valor de 
 ### O que fazer para resolver as pendências
 
 Na função ```calculoRef()```:
-* Transformar dados ```read_dianteira[]``` e ```read_traseira[]``` em ```float```;
+
+* Transformar dados ```read_dianteira[]``` e ```read_traseira[]``` em ```int```;
 * Usar dados convertidos e dados da leitura da IMU (```acc[]```, ```gyr[]``` e ```magne[]```) para fazer o cálculo de referência de força das rodas;
-* Converter cálculo de cada roda em sequência de 2 bytes cada e gravar em ```writebyte[]``` na sequência estabelecida para ```escrita.data[]```
+* Converter cálculo de cada roda e cálculo dos ângulos (rodas dianteiras) em sequência de 2 bytes cada e gravar em ```write_dianteira[]``` e ```write_traseira[]``` na sequência estabelecida para ```escrita.data[]```.
