@@ -106,10 +106,10 @@ bool leituraIMU(ICM_20948_I2C *sensor){
 }
 
 //Função de cálculo de força de referência das rodas
-void calculoRef(){
+void calculoRef(){ //CÁLCULO ARBITRÁRIO, FAVOR DESCONSIDERAR SIGNIFICADO
   unsigned int ref[3], refDiantEsq, refDiantDir, refTrasEsq, refTrasDir, refAnguloEsq, refAnguloDir;
   for(int i = 0; i < 3; i++)
-    ref[i] = abs(acc[i]*gyr[i]/magne[i]);
+    ref[i] = abs(acc[i]*gyr[i]/magne[i]); //DESCONSIDERE QUALQUER COISA DEPOIS DESSA LINHA
   refDiantEsq = (read_dianteira[3]*256) + read_dianteira[2])/(5*ref[0]);
   refDiantDir = (read_dianteira[1]*256) + read_dianteira[0])/(5*ref[1]);
   refTrasEsq = (read_traseira[3]*256) + read_traseira[2])/(5*ref[0]);
