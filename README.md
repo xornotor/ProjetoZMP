@@ -12,9 +12,9 @@ Até o presente momento, foi criado um código ```.ino``` com as funções de es
 
 ## Considerações para implementação
 
-A leitura das mensagens foi feita considerando que a MCU das rodas dianteiras está emitindo mensagem com ID ```0x00``` e a MCU das rodas traseiras está emitindo mensagem com ID ```0x01```.
+A leitura das mensagens foi feita considerando que a MCU das rodas dianteiras está emitindo mensagem com ID ```0x02``` e a MCU das rodas traseiras está emitindo mensagem com ID ```0x01```.
 
-A mensagem que escreveremos contendo o cálculo de referência das rodas será enviada com ID ```0x02```.
+A mensagem que escreveremos contendo o cálculo de referência das rodas será enviada com ID ```0x03```.
 
 Cada mensagem lida/escrita terá 8 bytes de tamanho.
 
