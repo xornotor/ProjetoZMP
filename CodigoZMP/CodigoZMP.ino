@@ -1,4 +1,4 @@
-/* 
+ /* 
  * Cálculo de referências de forças
  * Autores do Código:
  * - Ana Clara Malheiro Smera Batista
@@ -13,16 +13,17 @@
 #include <ICM_20948.h>
 
 //Definição de constantes (ID's de mensagens CAN), Considerando
-//0x00 ID da mensagem da MCU das rodas dianteiras
-//0x01 ID da mensagem da MCU das rodas traseiras
-//0x02 ID da mensagem da MCU de cálculo da ZMP (esta)
+//0x02 ID da mensagem da MCU das rodas dianteiras
+//0x03 ID da mensagem da MCU das rodas traseiras
+//0x04 ID da mensagem da MCU de cálculo da ZMP (esta)
 #define MCU_DIANT 0x02
 #define MCU_TRAS 0x03
-#define MCU_ZMP 0x04
+#define MCU_ZMP_TRAS 0x04
+#define MCU_ZMP_DIANT 0x05
 
 //Definição de structs e módulo CAN
 struct can_frame leitura, escrita; //can_id, can_dlc, data[can_dlc]
-byte read_dianteira[8], read_traseira[8], writebyte[8];
+byte read_dianteira[8], read_traseira[8], write_dianteira[8], write_traseira[8];
 float acc[3], gyr[3], magne[3];
 MCP2515 mcp2515(10);
 
@@ -37,7 +38,6 @@ void setup() {
   mcp2515.reset();
   mcp2515.setBitrate(CAN_125KBPS);
   mcp2515.setNormalMode();
-  escrita.can_id = MCU_ZMP;
   escrita.can_dlc = 8;
 
   //Inicialização do módulo IMU
@@ -78,7 +78,11 @@ bool leituraCAN(int id_busca){
 
 //Função de escrita pelo módulo CAN
 void escritaCAN(){
-  for(int i = 0; i < escrita.can_dlc; i++) escrita.data[i] = writebyte[i];
+  escrita.can_id = MCU_ZMP_DIANT;
+  for(int i = 0; i < escrita.can_dlc; i++) escrita.data[i] = write_dianteira[i];
+  mcp2515.sendMessage(&escrita);
+  escrita.can_id = MCU_ZMP_TRAS;
+  for(int i = 0; i < escrita.can_dlc; i++) escrita.data[i] = write_traseira[i];
   mcp2515.sendMessage(&escrita);
 }
 
